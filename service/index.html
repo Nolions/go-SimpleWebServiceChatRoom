@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Go PubSub</title>
+
+    <script type="text/javascript">
+        var ws = new WebSocket('ws://127.0.0.1:8080/ws');
+        ws.onopen = () => {
+            document.querySelector("#text").value += "建立連線\n"
+        }
+        ws.onmessage = (msg) => {
+            document.querySelector("#text").value += msg.data + "\n"
+        }
+        ws.onclose = () => {
+            document.querySelector("#text").value += "連線中斷"
+        }
+        window.onload = function () {
+            document.querySelector('#send').onclick = function () {
+                ws.send('{' +
+                        '"message":"' + document.querySelector('#msg').value + '"' +
+                        '}')
+            }
+        }
+    </script>
+</head>
+<div>
+    <textarea id="text" rows="10" cols="100"></textarea>
+</div>
+
+<div>
+    Message: <input type="text" id="msg" value="">
+</div>
+<button id="send" type="button">Send</button>
+</body>
+</html>
